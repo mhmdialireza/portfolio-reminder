@@ -3,21 +3,22 @@ import publicRoutes from './Public/PublicRoutes'
 import MasterLayout from '../Layout/MasterLayout'
 import userRoutes from './Protected/User/UserRoutes'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
-import { useAppDispatch, useAppSelector } from '../Redux/App/hooks'
-import { useEffect } from 'react'
-import { userInfo } from '../Redux/Features/Auth/authService'
-import storage from '../Utils/storage'
+import { useAppSelector } from '../Redux/App/hooks'
+import notFoundRoute from './Common/NotFoundRoute'
+import noAuthenticateRoute from './Common/NoAuthenticateRoute'
 
 function AppRoutes() {
   let routes: RouteObject[] = []
 
+  const { token } = useAppSelector(authSelector)
 
-//  ???????????????
-
-  routes.push(...publicRoutes)
+  if (token) {
+    routes = [...userRoutes, notFoundRoute]
+  } else {
+    routes = [...publicRoutes, noAuthenticateRoute]
+  }
 
   const element = useRoutes(routes)
-
   return <MasterLayout>{element}</MasterLayout>
 }
 

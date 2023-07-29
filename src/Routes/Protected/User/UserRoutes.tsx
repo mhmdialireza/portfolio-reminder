@@ -1,15 +1,15 @@
-import { Navigate, RouteObject } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-import Tasks from '../../../Pages/Tasks';
-import MasterLayout from '../../../Layout/MasterLayout';
+import { RouteObject } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import ProtectedLayout from '../../../Layout/ProtectedLayout'
+import Tasks from '../../../Pages/Tasks'
 
 const UserRoutes = () => {
   return (
-    <MasterLayout>
+    <ProtectedLayout>
       <Outlet />
-    </MasterLayout>
-  );
-};
+    </ProtectedLayout>
+  )
+}
 
 const userRoutes: RouteObject[] = [
   {
@@ -18,17 +18,9 @@ const userRoutes: RouteObject[] = [
     children: [
       {
         path: 'tasks',
-        element: <Tasks />,
-      },
-      // {
-      //   path: 'task/:id',
-      //   element: <Task />,
-      // },
-      {
-        path: '*',
-        element: <Navigate to='tasks' />,
-      },
-    ],
-  },
-];
-export default userRoutes;
+        element: <Tasks />
+      }
+    ]
+  }
+]
+export default userRoutes

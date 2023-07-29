@@ -7,8 +7,13 @@ import { IRegisterPayload } from '../Types/Api/auth.type'
 import { registerUser } from '../Redux/Features/Auth/authService'
 import AppInput from '../Common/Form/AppInput'
 import AppButton from '../Common/Form/AppButton'
+import { FormEnum } from '../Pages/Auth'
 
-const Register = () => {
+type Props = {
+  setForm: React.Dispatch<React.SetStateAction<FormEnum>>
+}
+
+const RegisterFrom = ({ setForm }: Props) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -25,68 +30,56 @@ const Register = () => {
     }
   }
 
+  const changeForm = () => {
+    setForm(FormEnum.LOGIN)
+  }
+
   return (
-    <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
-      <div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
-        <div className="flex flex-col overflow-y-auto md:flex-row">
-          <div className="h-32 md:h-auto md:w-1/2">
-            <img
-              aria-hidden="true"
-              className="object-cover w-full h-full dark:hidden"
-              src="/img/register-office.jpeg"
-              alt="Office"
-            />
-            <img
-              aria-hidden="true"
-              className="hidden object-cover w-full h-full dark:block"
-              src="/img/register-office-dark.jpeg"
-              alt="Office"
-            />
-          </div>
-          <div className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-            <form onSubmit={handleSubmit(submitForm)} className="w-full">
-              <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Register
-              </h1>
+    <form onSubmit={handleSubmit(submitForm)} className="w-full">
+      <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+        Register
+      </h1>
 
-              <AppInput
-                register={register('username')}
-                id="username"
-                label="username"
-                error={errors.username}
-              />
+      <AppInput
+        register={register('username')}
+        id="username"
+        label="username"
+        error={errors.username}
+      />
 
-              <AppInput
-                register={register('email')}
-                id="email"
-                label="email"
-                error={errors.email}
-              />
+      <AppInput
+        register={register('email')}
+        id="email"
+        label="email"
+        error={errors.email}
+      />
 
-              <AppInput
-                register={register('password')}
-                id="password"
-                label="password"
-                error={errors.password}
-              />
-              
-              <AppInput
-                register={register('password_confirmation')}
-                id="password_confirmation"
-                label="repeat password"
-                error={errors.password_confirmation}
-              />
+      <AppInput
+        register={register('password')}
+        type="password"
+        id="password"
+        label="password"
+        error={errors.password}
+      />
 
-              <div className="mt-6 pb-2">
-                <AppButton
-                  text="Register"
-                  fill
-                  loading={isSubmitting}
-                  disable={!isDirty || !isValid || isSubmitting}
-                />
-              </div>
+      <AppInput
+        register={register('password_confirmation')}
+        type="password"
+        id="password_confirmation"
+        label="repeat password"
+        error={errors.password_confirmation}
+      />
 
-              {/* <hr className="my-8" />
+      <div className="mt-6 pb-2">
+        <AppButton
+          text="Register"
+          fill
+          loading={isSubmitting}
+          disable={!isDirty || !isValid || isSubmitting}
+        />
+      </div>
+
+      {/* <hr className="my-8" />
 
               <button className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
                 <svg
@@ -110,20 +103,17 @@ const Register = () => {
                 </svg>
                 Twitter
               </button>
-              <p className="mt-4">
-                <a
-                  className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  href="./register.html"
-                >
-                  Don't have account?
-                </a>
-              </p> */}
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+              */}
+      <p className="mt-4">
+        <button
+          className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+          onClick={changeForm}
+        >
+          Do you have account?
+        </button>
+      </p>
+    </form>
   )
 }
 
-export default Register
+export default RegisterFrom

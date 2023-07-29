@@ -1,8 +1,7 @@
 import { lazy, Suspense } from 'react'
-import { Navigate, Outlet, RouteObject } from 'react-router-dom'
+import {  Outlet, RouteObject } from 'react-router-dom'
 import AppLoader from '../../Common/AppLoader'
-const Register = lazy(() => import('./../../Pages/Register'))
-const Login = lazy(() => import('./../../Pages/Login'))
+const Auth = lazy(() => import('../../Pages/Auth'))
 
 const PublicRoutes = () => {
   return (
@@ -19,23 +18,11 @@ const publicRoutes: RouteObject[] = [
     element: <PublicRoutes />,
     children: [
       {
-        path: 'register',
-        element: <Register />
+        path: '',
+        element: <Auth />
       },
-      {
-        path: 'login',
-        element: <Login />
-      },
-      {
-        path: '*',
-        element: <Navigate to="login" />
-      }
     ]
   },
-  {
-    path: '*',
-    element: <Navigate to="/auth/login" />
-  }
 ]
 
 export default publicRoutes

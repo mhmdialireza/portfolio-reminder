@@ -35,7 +35,12 @@ export const userInfo = createAsyncThunk(
     try {
       return (await appAxios.post(`${BASE_NAME}user-info`)).data
     } catch (error: any) {
-      return rejectWithValue(error?.response?.data?.errors)
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+      // return rejectWithValue(error?.response?.data?.errors)
     }
   }
 )

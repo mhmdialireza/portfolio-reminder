@@ -11,12 +11,15 @@ export interface IAuthState {
   token: string | undefined
   user: IUser | undefined
   error: undefined | string
+  isDispatched: boolean
 }
 
+const token = storage.getToken()
 const initialState: IAuthState = {
-  token: undefined,
+  token,
   user: undefined,
-  error: undefined
+  error: undefined,
+  isDispatched: false
 }
 
 const authSlice = createSlice({
@@ -45,8 +48,10 @@ const authSlice = createSlice({
     })
     builder.addCase(userInfo.fulfilled, (state, { payload }) => {
       state.user = payload.user
+      state.isDispatched = true
     })
-    builder.addCase(userInfo.rejected, () => {
+    builder.addCase(userInfo.rejected, (state) => {
+      state.isDispatched = true
       storage.clearToken()
     })
   }
