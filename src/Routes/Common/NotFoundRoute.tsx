@@ -1,4 +1,4 @@
-import { Navigate, Outlet, RouteObject } from 'react-router-dom'
+import { Outlet, RouteObject } from 'react-router-dom'
 import ProtectedLayout from '../../Layout/ProtectedLayout'
 import NotFound from '../../Pages/NotFound'
 

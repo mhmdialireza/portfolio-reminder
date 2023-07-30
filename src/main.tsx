@@ -12,18 +12,28 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <BrowserRouter>
         <App />
-        <ToastContainer
-          position="top-center"
+        {/* <ToastContainer
+          position="bottom-left"
           autoClose={false}
           closeButton
-          hideProgressBar={true}
           newestOnTop={false}
           closeOnClick={false}
-          rtl={true}
           bodyClassName="text-sm"
           pauseOnFocusLoss={false}
           pauseOnHover={false}
           theme="light"
+        /> */}
+        <ToastContainer
+          position="bottom-left"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
         />
       </BrowserRouter>
     </Provider>

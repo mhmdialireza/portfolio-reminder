@@ -3,6 +3,7 @@ import AppLoader from '../Common/AppLoader'
 import { userInfo } from '../Redux/Features/Auth/authService'
 import { useAppDispatch, useAppSelector } from '../Redux/App/hooks'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
+import MasterLayout from './MasterLayout'
 
 export default function ProtectedLayout({ children }: PropsWithChildren) {
   const { user } = useAppSelector(authSelector)
@@ -13,7 +14,7 @@ export default function ProtectedLayout({ children }: PropsWithChildren) {
   }, [dispatch])
 
   return user ? (
-    <div>{children}</div>
+    <MasterLayout>{children}</MasterLayout>
   ) : (
     <div className="h-screen w-full grid place-items-center">
       <AppLoader />

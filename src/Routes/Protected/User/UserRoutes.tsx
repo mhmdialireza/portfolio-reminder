@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router-dom'
+import { Navigate, RouteObject } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import ProtectedLayout from '../../../Layout/ProtectedLayout'
 import Tasks from '../../../Pages/Tasks'
@@ -17,7 +17,7 @@ const userRoutes: RouteObject[] = [
     element: <UserRoutes />,
     children: [
       {
-        path: 'tasks',
+        path: '/tasks',
         element: <Tasks />
       }
     ]

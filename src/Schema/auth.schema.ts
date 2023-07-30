@@ -2,13 +2,16 @@ import { z } from 'zod'
 
 export const registerSchema = z
   .object({
-    username: z.string().min(1, { message: 'username is required' }),
-    email: z.string().min(1, { message: 'email is required' }).email({
-      message: 'Must be a valid email'
-    }),
+    username: z
+      .string()
+      .min(1, { message: 'username is required' }),
+    email: z
+      .string()
+      .min(1, { message: 'email is required' })
+      .email({ message: 'input must be a valid email' }),
     password: z
       .string()
-      .min(6, { message: 'Password must be at least 6 characters' }),
+      .min(4, { message: 'Password must be at least 6 characters' }),
     password_confirmation: z
       .string()
       .min(1, { message: 'Confirm Password is required' })
@@ -21,12 +24,13 @@ export const registerSchema = z
 export type RegisterSchema = z.infer<typeof registerSchema>
 
 export const loginSchema = z.object({
-  email: z.string().min(1, { message: 'email is required' }).email({
-    message: 'Must be a valid email'
-  }),
+  email: z
+    .string()
+    .min(1, { message: 'email is required' })
+    .email({ message: 'input must be a valid email' }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters' })
+    .min(1, { message: 'password is required' })
 })
 
 export type LoginSchema = z.infer<typeof loginSchema>

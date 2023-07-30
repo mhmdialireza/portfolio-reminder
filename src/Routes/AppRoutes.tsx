@@ -1,6 +1,5 @@
 import { RouteObject, useRoutes } from 'react-router-dom'
 import publicRoutes from './Public/PublicRoutes'
-import MasterLayout from '../Layout/MasterLayout'
 import userRoutes from './Protected/User/UserRoutes'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
 import { useAppSelector } from '../Redux/App/hooks'
@@ -19,7 +18,7 @@ function AppRoutes() {
   }
 
   const element = useRoutes(routes)
-  return <MasterLayout>{element}</MasterLayout>
+  return <div>{element}</div>
 }
 
 export default AppRoutes

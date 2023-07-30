@@ -1,17 +1,19 @@
 import { lazy, Suspense } from 'react'
-import {  Outlet, RouteObject } from 'react-router-dom'
+import { Outlet, RouteObject } from 'react-router-dom'
 import AppLoader from '../../Common/AppLoader'
+import AuthLayout from '../../Layout/AuthLayout'
 const Auth = lazy(() => import('../../Pages/Auth'))
 
 const PublicRoutes = () => {
   return (
-    <Suspense fallback={<AppLoader />}>
-      <Outlet />
-    </Suspense>
+    <AuthLayout>
+      <Suspense fallback={<AppLoader />}>
+        <Outlet />
+      </Suspense>
+    </AuthLayout>
   )
 }
 
-// ===> current path  /app
 const publicRoutes: RouteObject[] = [
   {
     path: '/auth',
@@ -20,9 +22,9 @@ const publicRoutes: RouteObject[] = [
       {
         path: '',
         element: <Auth />
-      },
+      }
     ]
-  },
+  }
 ]
 
 export default publicRoutes

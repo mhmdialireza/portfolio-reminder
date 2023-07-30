@@ -16,16 +16,18 @@ const AppButton = ({ text, disable, loading }: propInterface) => {
     >
       <p className="w-full text-center">
         {loading ? (
-          <TailSpin
-            height="1.5rem"
-            width="1.5rem"
-            color="#4fa94d"
-            ariaLabel="tail-spin-loading"
-            radius="3"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+          <div className="w-full h-full grid justify-items-center">
+            <TailSpin
+              height="1.5rem"
+              width="1.5rem"
+              color="#4fa94d"
+              ariaLabel="tail-spin-loading"
+              radius="3"
+              // wrapperStyle={{}}
+              // wrapperClass=""
+              visible={true}
+            />
+          </div>
         ) : (
           text
         )}
