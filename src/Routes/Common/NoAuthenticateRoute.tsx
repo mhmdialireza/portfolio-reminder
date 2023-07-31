@@ -15,7 +15,7 @@ const noAuthenticateRoute: RouteObject = {
   element: <NoAuthenticateRoute />,
   children: [
     {
-      path: '*',
+      path: '',
       element: <Navigate to="/auth" />
     }
   ]

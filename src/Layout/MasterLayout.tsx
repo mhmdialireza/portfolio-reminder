@@ -1,6 +1,6 @@
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren } from 'react'
 import Header from '../Components/Header'
-import AddTask from '../Components/AddTask'
+import FloatNew from '../Components/FloatNew'
 
 const MasterLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -13,7 +13,7 @@ const MasterLayout = ({ children }: PropsWithChildren) => {
           </main>
         </div>
       </div>
-      <AddTask />
+      <FloatNew />
     </>
   )
 }

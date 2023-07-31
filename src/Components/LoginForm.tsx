@@ -58,7 +58,6 @@ const LoginForm = ({ setForm }: Props) => {
       <div className="mt-6 pb-2">
         <AppButton
           text="Log in"
-          fill
           loading={isSubmitting}
           disable={!isDirty || !isValid || isSubmitting}
         />

@@ -11,11 +11,11 @@ const NotFoundRoute = () => {
 }
 
 const notFoundRoute: RouteObject = {
-  path: '/',
+  path: '*',
   element: <NotFoundRoute />,
   children: [
     {
-      path: '*',
+      path: '',
       element: <NotFound />
     }
   ]
