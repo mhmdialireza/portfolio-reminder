@@ -1,10 +1,9 @@
 import { RouteObject, useRoutes } from 'react-router-dom'
-import publicRoutes from './Public/PublicRoutes'
-import userRoutes from './Protected/User/UserRoutes'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
 import { useAppSelector } from '../Redux/App/hooks'
 import notFoundRoute from './Common/NotFoundRoute'
-import noAuthenticateRoute from './Common/NoAuthenticateRoute'
+import authRoute from './Common/AuthRoute'
+import protectedRoutes from './ProtectedRoutes'
 
 function AppRoutes() {
   let routes: RouteObject[] = []
@@ -12,10 +11,14 @@ function AppRoutes() {
   const { token } = useAppSelector(authSelector)
 
   if (token) {
-    routes = [...userRoutes, notFoundRoute]
+    routes = [...protectedRoutes]
   } else {
-    routes = [...publicRoutes, noAuthenticateRoute]
+    routes = [...authRoute]
   }
+
+  routes.push(notFoundRoute)
+
+  console.log(routes);
 
   const element = useRoutes(routes)
   return <div>{element}</div>

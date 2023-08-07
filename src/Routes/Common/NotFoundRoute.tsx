@@ -1,21 +1,25 @@
 import { Outlet, RouteObject } from 'react-router-dom'
 import ProtectedLayout from '../../Layout/ProtectedLayout'
 import NotFound from '../../Pages/NotFound'
+import MasterLayout from '../../Layout/MasterLayout'
 
 const NotFoundRoute = () => {
   return (
-    <ProtectedLayout>
+    <MasterLayout>
       <Outlet />
-    </ProtectedLayout>
+    </MasterLayout>
+    // <ProtectedLayout>
+    //   <Outlet />
+    // </ProtectedLayout>
   )
 }
 
 const notFoundRoute: RouteObject = {
-  path: '*',
-  element: <NotFoundRoute />,
+  path: '',
+  // element: <NotFoundRoute />,
   children: [
     {
-      path: '',
+      path: '*',
       element: <NotFound />
     }
   ]

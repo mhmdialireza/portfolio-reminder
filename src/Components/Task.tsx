@@ -2,23 +2,31 @@ import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im'
 import { FiExternalLink } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Priority from './Priority'
+import { useAppDispatch } from './../Redux/App/hooks'
+import { changeStatus } from '../Redux/Features/Task/taskService'
 
 type Props = {
   id: number
   title: string
   priority: number
-  isDone?: boolean
+  status: 'ongoing' | 'done'
 }
 
-const Task = ({ id, title, priority, isDone = false }: Props) => {
+const Task = ({ id, title, priority, status }: Props) => {
+  const dispatch = useAppDispatch()
+
+  const doneOrOngoing = (id: number) => {
+    console.log(id);
+    dispatch(changeStatus({ id }))
+  }
+
   return (
     <tr className=" flex w-full text-gray-700 dark:text-gray-400 p-3">
-      <td className="flex items-center justify-center flex-1 cursor-pointer">
-          {isDone ?
-           <ImCheckboxChecked /> 
-           : 
-          <ImCheckboxUnchecked />
-          }
+      <td
+        className="flex items-center justify-center flex-1 cursor-pointer"
+        onClick={() => doneOrOngoing(id)}
+      >
+        {status == 'done' ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
       </td>
       <td className="flex items-center justify-center flex-3 md:flex-7 lg:flex-10">
         <div className="flex items-center text-sm w-full">

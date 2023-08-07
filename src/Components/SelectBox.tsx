@@ -1,5 +1,6 @@
 import { Listbox } from '@headlessui/react'
 import { AiOutlineDown } from 'react-icons/ai'
+import { Status } from '../Enums/api.enum'
 
 export type SelectBoxItemType = {
   id: number

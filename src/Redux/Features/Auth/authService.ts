@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
   ILoginPayload,
   IRegisterPayload,
+  IUpdateProfilePayload,
 } from '../../../Types/Api/auth.type'
 import appAxios from '../../../Services/Axios/config'
 
@@ -24,7 +25,7 @@ export const loginUser = createAsyncThunk(
     try {
       return (await appAxios.post(`${BASE_NAME}login`, data)).data
     } catch (error: any) {
-      return rejectWithValue(error?.response?.data)
+      return rejectWithValue(error?.response?.data?.error)
     }
   }
 )
@@ -34,6 +35,37 @@ export const userInfo = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       return (await appAxios.post(`${BASE_NAME}user-info`)).data
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+      // return rejectWithValue(error?.response?.data?.errors)
+    }
+  }
+)
+
+export const logout = createAsyncThunk(
+  `${BASE_NAME}logout`,
+  async (_, { rejectWithValue }) => {
+    try {
+      return (await appAxios.post(`${BASE_NAME}logout`)).data
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)
+
+export const updateProfile = createAsyncThunk(
+  `${BASE_NAME}update-profile`,
+  async (data: IUpdateProfilePayload, { rejectWithValue }) => {
+    try {
+      return (await appAxios.put(`${BASE_NAME}update-profile`, data)).data
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)

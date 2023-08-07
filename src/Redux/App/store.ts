@@ -4,9 +4,11 @@ import {
   configureStore
 } from '@reduxjs/toolkit'
 import authReducer from '../Features/Auth/authSlice'
+import taskReducer from '../Features/Task/taskSlice'
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  task: taskReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

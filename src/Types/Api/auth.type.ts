@@ -17,6 +17,13 @@ export interface IUserInfoPayload {
   user: IUser
 }
 
+export interface IUpdateProfilePayload {
+  username: string
+  email: string
+  profile_image?: any
+}
+
+
 // response interface
 export interface ILoginResponse {
   user: IUser

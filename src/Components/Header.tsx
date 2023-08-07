@@ -8,20 +8,8 @@ enum ThemeEnum {
   DARK = 'dark'
 }
 
-type Props = {}
-
-const Header = (props: Props) => {
-  // const [show,isShow]
-  //TODO: set data in useState or set in useEffect
-
-  //way 1
+const Header = () => {
   const [theme, setTheme] = useState<ThemeEnum>(storage.getTheme())
-
-  //way 2
-  //   const [theme, setTheme] = useState<ThemeEnum | undefined>()
-  //   useLayoutEffect(() => { // use useLayoutEffect instead of useEffect to display theme icon without change immediately after get `theme` value
-  //     setTheme(() => storage.getTheme())
-  //   })
 
   const changeTheme = () => {
     const newTheme = theme == ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK
@@ -34,7 +22,7 @@ const Header = (props: Props) => {
       document.documentElement.classList.remove(ThemeEnum.DARK)
     }
   }
-
+  
   return (
     <header className="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
       <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">

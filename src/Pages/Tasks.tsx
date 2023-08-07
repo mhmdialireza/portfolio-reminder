@@ -4,6 +4,11 @@ import SelectBox, {
 } from '../Components/SelectBox'
 import Task from '../Components/Task'
 import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../Redux/App/hooks'
+import { taskSelector } from '../Redux/Features/Task/taskSlice'
+import { useEffect } from 'react'
+import { filter as filterService } from './../Redux/Features/Task/taskService'
+import { Order } from '../Enums/api.enum'
 
 const orderItems: SelectBoxItemsType = [
   { id: 1, title: 'latest', unavailable: false },
@@ -18,11 +23,28 @@ const filterItems: SelectBoxItemsType = [
   { id: 3, title: 'ongoing', unavailable: false }
 ]
 
-type Props = {}
-
-const Tasks = ({}: Props) => {
+const Tasks = () => {
   const [sort, setSort] = useState<SelectBoxItemType>(orderItems[0])
   const [filter, setFilter] = useState<SelectBoxItemType>(filterItems[0])
+
+  const { tasks } = useAppSelector(taskSelector)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    let status: string = filter.title
+
+    let column: 'created_at' | 'priority' = ['latest', 'oldest'].includes(
+      sort.title
+    )
+      ? 'created_at'
+      : 'priority'
+
+    let order: Order = ['latest', 'high priority'].includes(sort.title)
+      ? Order.dsc
+      : Order.asc
+
+    dispatch(filterService({ column, status, order }))
+  }, [sort, filter, tasks])
 
   return (
     <>
@@ -63,11 +85,15 @@ const Tasks = ({}: Props) => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-              <Task id={1} title="first task" priority={1} />
-              <Task id={2} title="first task" priority={2} />
-              <Task id={3} title="first task" priority={3} />
-              <Task id={4} title="first task" priority={4} />
-              <Task id={5} title="first task" priority={5} />
+              {tasks.map(task => (
+                <Task
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  priority={task.priority}
+                  status={task.status}
+                />
+              ))}
             </tbody>
           </table>
         </div>

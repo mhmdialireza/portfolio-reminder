@@ -14,17 +14,17 @@ const PublicRoutes = () => {
   )
 }
 
-const publicRoutes: RouteObject[] = [
+const authRoute: RouteObject[] = [
   {
-    path: '/auth',
+    path: '',
     element: <PublicRoutes />,
     children: [
       {
-        path: '',
+        path: 'auth',
         element: <Auth />
       }
     ]
   }
 ]
 
-export default publicRoutes
+export default authRoute

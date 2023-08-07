@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import IUser from '../../../Types/user.type'
-import { loginUser, registerUser, userInfo } from './taskService'
-import storage from '../../../Utils/storage'
+import { changeStatus, filter } from './taskService'
 import 'react-toastify/dist/ReactToastify.css'
 import AppToast from '../../../Utils/toastUtils'
 import { RootState } from '../../App/store'
-import { useNavigate } from 'react-router-dom'
 import ITask from '../../../Types/task.type'
 
 export interface ITaskState {
@@ -18,7 +15,7 @@ const initialState: ITaskState = {
   error: undefined
 }
 
-const authSlice = createSlice({
+const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {},
@@ -26,13 +23,14 @@ const authSlice = createSlice({
     builder.addCase(filter.fulfilled, (state, { payload }) => {
       state.tasks = payload.tasks
       state.error = payload.message
-
-      storage.setToken(payload.token)
     })
-    builder.addCase(registerUser.rejected, (state, { payload }) => {
-      AppToast.error(payload[Object.keys(payload)[0]][0])
+    // builder.addCase(filter.rejected, (state, { payload }) => {
+    //   AppToast.error(payload[Object.keys(payload)[0]][0])
+    // })
+    builder.addCase(changeStatus.fulfilled, (state, { payload }) => {
+      state.tasks = state.tasks.map(task => task.id == payload.id ? payload : task)
     })
   }
 })
-export const authSelector = (state: RootState) => state.auth
-export default authSlice.reducer
+export const taskSelector = (state: RootState) => state.task
+export default taskSlice.reducer

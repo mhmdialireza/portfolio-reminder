@@ -8,6 +8,8 @@ import AppTextArea from '../Common/Form/AppTextArea'
 import { SelectBoxItemsType } from '../Components/SelectBox'
 import AppSelectBox from '../Common/Form/AppSelectBox'
 import AppButton from './../Common/Form/AppButton'
+import appAxios from '../Services/Axios/config'
+import AppToast from '../Utils/toastUtils'
 
 type Props = {}
 
@@ -29,9 +31,13 @@ const AddTask = ({}: Props) => {
   const { errors, isDirty, isValid, isSubmitting } = formState
 
   const submitForm = async (addTaskPayload: IAddTaskPayload) => {
-    console.log(addTaskPayload)
-    if (false) {
+    try {
+      ;(await appAxios.post('/tasks/add', addTaskPayload)).data
+      AppToast.success('Task added successfully')
       navigate('/tasks')
+    } catch (error) {
+      console.log(error?.response?.data)
+      AppToast.error(error?.response?.data)
     }
   }
 
