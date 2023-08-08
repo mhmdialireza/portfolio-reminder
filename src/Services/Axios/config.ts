@@ -1,7 +1,8 @@
 import axios, { InternalAxiosRequestConfig } from 'axios'
 import storage from '../../Utils/storage'
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api'
+export const BASE_URL = 'http://127.0.0.1:8000'
+const API_BASE_URL = `${BASE_URL}/api`
 const appAxios = axios.create({
   baseURL: API_BASE_URL
 })

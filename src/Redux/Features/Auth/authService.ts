@@ -65,12 +65,18 @@ export const updateProfile = createAsyncThunk(
   `${BASE_NAME}update-profile`,
   async (data: IUpdateProfilePayload, { rejectWithValue }) => {
     try {
-      return (await appAxios.put(`${BASE_NAME}update-profile`, data)).data
+      return (await appAxios.post(`${BASE_NAME}update-profile`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })).data
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)
       } else {
-        return rejectWithValue(error.message)
+        // return rejectWithValue(error?.response?.data?.error)
+        return rejectWithValue(error.response)
+        // return rejectWithValue(error.message)
       }
       // return rejectWithValue(error?.response?.data?.errors)
     }

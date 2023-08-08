@@ -1,11 +1,14 @@
 import { Menu } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAppDispatch } from './../Redux/App/hooks'
+import { useAppDispatch, useAppSelector } from './../Redux/App/hooks'
 import { logout } from '../Redux/Features/Auth/authService'
+import { authSelector } from '../Redux/Features/Auth/authSlice'
+import { BASE_URL } from '../Services/Axios/config'
 
 type Props = {}
 
 const HeaderDropdown = ({}: Props) => {
+  const { user } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -22,7 +25,8 @@ const HeaderDropdown = ({}: Props) => {
       <Menu.Button className="align-middle rounded-full focus:shadow-outline-purple focus:outline-none">
         <img
           className="object-cover w-8 h-8 rounded-full"
-          src="/img/avatar.jpg"
+          // src="/img/avatar.jpg"
+          src={user?.profile_image_path ? BASE_URL+user?.profile_image_path : '/img/avatar.jpg'}
           alt="profile image"
         />
       </Menu.Button>

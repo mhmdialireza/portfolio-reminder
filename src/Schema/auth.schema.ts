@@ -50,7 +50,7 @@ export const updateProfileSchema = z
       .email({ message: 'input must be a valid email' }),
     profile_image: z
       .any()
-      .refine((files) => files.length > 0, "Image is required.")
+      .refine((files) => files?.length > 0, "Image is required.")
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
       message: `Max file size is 5MB.`
     })

@@ -12,6 +12,7 @@ import { authSelector } from '../Redux/Features/Auth/authSlice'
 import Button from '../Common/Button'
 import EditMode from '../Components/EditMode'
 import AppToast from '../Utils/toastUtils'
+import { BASE_URL } from '../Services/Axios/config'
 
 enum Mode {
   show = 'show',
@@ -33,11 +34,14 @@ const Profile = ({}: Props) => {
   const { errors, isDirty, isValid, isSubmitting } = formState
 
   const submitForm = async (updateProfilePayload: IUpdateProfilePayload) => {
+    updateProfilePayload.profile_image = updateProfilePayload.profile_image[0]
+    // console.log(updateProfilePayload);
     const result = await dispatch(updateProfile(updateProfilePayload))
     if (result.type === 'auth/update-profile/fulfilled') {
       setMode(() => Mode.show)
       AppToast.success('profile successfully updated')
     }
+    // console.log(result.payload.data.errors);
   }
 
   const changeMode = () => {
@@ -55,7 +59,14 @@ const Profile = ({}: Props) => {
       >
         <EditMode changeMode={changeMode} />
         <div className="rounded-full overflow-hidden w-44 h-44 lg:w-80 lg:h-80 flex items-center justify-center">
-          <img src="/img/avatar.jpg" alt="profile image" />
+          <img
+            src={
+              user?.profile_image_path
+                ? BASE_URL + user?.profile_image_path
+                : '/img/avatar.jpg'
+            }
+            alt="profile image"
+          />
         </div>
         <div className="flex-1 w-full">
           {mode == Mode.edit && (
