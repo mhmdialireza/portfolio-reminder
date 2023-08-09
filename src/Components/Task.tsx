@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom'
 import Priority from './Priority'
 import { useAppDispatch } from './../Redux/App/hooks'
 import { changeStatus } from '../Redux/Features/Task/taskService'
+import ITask from '../Types/task.type'
 
 type Props = {
-  id: number
-  title: string
-  priority: number
-  status: 'ongoing' | 'done'
+  task: ITask
 }
 
-const Task = ({ id, title, priority, status }: Props) => {
+const Task = ({ task }: Props) => {
+  const { id, title, status, priority } = task
+
   const dispatch = useAppDispatch()
 
   const doneOrOngoing = (id: number) => {
-    console.log(id);
+    console.log(id)
     dispatch(changeStatus({ id }))
   }
 
@@ -29,9 +29,9 @@ const Task = ({ id, title, priority, status }: Props) => {
         {status == 'done' ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
       </td>
       <td className="flex items-center justify-center flex-3 md:flex-7 lg:flex-10">
-        <div className="flex items-center text-sm w-full">
+        <Link to={`/tasks/${id}`} className="flex items-center text-sm w-full">
           <p className="font-semibold">{title}</p>
-        </div>
+        </Link>
       </td>
       <td className="flex items-center justify-center flex-1">
         <div className="flex items-center justify-center text-sm">

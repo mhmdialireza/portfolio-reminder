@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { changeStatus, filter } from './taskService'
+import { changeStatus, filter, updateTask } from './taskService'
 import 'react-toastify/dist/ReactToastify.css'
 import AppToast from '../../../Utils/toastUtils'
 import { RootState } from '../../App/store'
@@ -27,7 +27,12 @@ const taskSlice = createSlice({
     // builder.addCase(filter.rejected, (state, { payload }) => {
     //   AppToast.error(payload[Object.keys(payload)[0]][0])
     // })
+
     builder.addCase(changeStatus.fulfilled, (state, { payload }) => {
+      state.tasks = state.tasks.map(task => task.id == payload.id ? payload : task)
+    })
+
+    builder.addCase(updateTask.fulfilled, (state, { payload }) => {
       state.tasks = state.tasks.map(task => task.id == payload.id ? payload : task)
     })
   }

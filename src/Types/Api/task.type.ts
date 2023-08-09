@@ -13,11 +13,19 @@ export interface IFilterTaskPayload {
 export interface IAddTaskPayload {
     title: string
     description: string
-    // priority: number
+    priority: number
 }
 
 export interface IChangeStatusPayload {
     id: number
+}
+
+export interface IUpdateTaskPayload {
+    title: string
+    description: string
+    priority: number
+    status: 'done' | 'ongoing'
+    remind_datetime?: string
 }
 
 

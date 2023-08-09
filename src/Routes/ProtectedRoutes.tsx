@@ -5,6 +5,7 @@ import Tasks from '../Pages/Tasks'
 import AddTask from '../Pages/AddTask'
 import Profile from '../Pages/Profile'
 import Home from '../Pages/Home'
+import Task from '../Pages/Task'
 
 const ProtectedRoutes = () => {
   return (
@@ -33,6 +34,10 @@ const protectedRoutes: RouteObject[] = [
           {
             path: 'add',
             element: <AddTask />
+          },
+          {
+            path: ':id',
+            element: <Task />
           }
         ]
       },

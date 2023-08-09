@@ -86,13 +86,7 @@ const Tasks = () => {
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
               {tasks.map(task => (
-                <Task
-                  key={task.id}
-                  id={task.id}
-                  title={task.title}
-                  priority={task.priority}
-                  status={task.status}
-                />
+                <Task key={task.id} task={task} />
               ))}
             </tbody>
           </table>

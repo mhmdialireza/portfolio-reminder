@@ -23,7 +23,7 @@ const AppInput = ({
   disable = false
 }: Props) => {
   return (
-    <div className="flex flex-col gap-1 pb-3">
+    <div className="w-full flex flex-col gap-1 pb-3">
       <label className="text-gray-700 dark:text-gray-400" htmlFor={id}>
         {label}:
       </label>

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import appAxios from '../../../Services/Axios/config'
-import { IFilterTaskPayload, IChangeStatusPayload } from '../../../Types/Api/task.type'
+import { IFilterTaskPayload, IChangeStatusPayload, IUpdateTaskPayload } from '../../../Types/Api/task.type'
 
 const BASE_NAME = 'tasks/'
 
@@ -21,6 +21,17 @@ export const changeStatus = createAsyncThunk(
   async (data: IChangeStatusPayload, { rejectWithValue }) => {
     try {
       return (await appAxios.put(`${BASE_NAME}change-status`, data)).data
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.errors)
+    }
+  }
+)
+
+export const updateTask = createAsyncThunk(
+  `${BASE_NAME}update`,
+  async (data: IUpdateTaskPayload, { rejectWithValue }) => {
+    try {
+      return (await appAxios.put(`${BASE_NAME}update`, data)).data
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.errors)
     }
