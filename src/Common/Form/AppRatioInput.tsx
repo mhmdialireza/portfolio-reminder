@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   FieldError,
   FieldErrorsImpl,
@@ -9,7 +8,6 @@ import { option } from '../../Pages/Task'
 
 type Props = {
   options: option[]
-  checked: string
   register: UseFormRegisterReturn<string>
   label: string
   type?: 'text' | 'password'
@@ -22,11 +20,10 @@ const AppRatioInput = ({
   register,
   label,
   disable,
-  checked,
   error
 }: Props) => {
   return (
-    <div className="text-sm w-full">
+    <div className="text-sm w-full pb-3">
       <span className="text-gray-700 dark:text-gray-400 capitalize">
         {label}:
       </span>
@@ -34,12 +31,11 @@ const AppRatioInput = ({
         {options.map(option => (
           <label className="inline-flex items-center text-gray-600 dark:text-gray-400">
             <input
-              {...register}
-              disabled={disable && checked != option.value}
               type="radio"
-              className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+              {...register}
+              disabled={disable}
+              className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray cursor-pointer"
               value={option.value}
-              checked={checked == option.value}
             />
             <span className="ml-2 capitalize">{option.title}</span>
           </label>

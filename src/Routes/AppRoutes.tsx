@@ -18,7 +18,7 @@ function AppRoutes() {
 
   routes.push(notFoundRoute)
 
-  console.log(routes);
+  // console.log(routes);
 
   const element = useRoutes(routes)
   return <div>{element}</div>

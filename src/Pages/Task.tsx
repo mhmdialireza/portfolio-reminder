@@ -16,6 +16,9 @@ import AppTextArea from '../Common/Form/AppTextArea'
 import AppRatioInput from '../Common/Form/AppRatioInput'
 import AppDateInput from '../Common/Form/AppDateInput'
 import Button from '../Common/Button'
+import { Status } from '../Enums/api.enum'
+import AppSelectBox from '../Common/Form/AppSelectBox'
+import { priorities } from './AddTask'
 
 enum Mode {
   show = 'show',
@@ -50,8 +53,10 @@ const Task = ({}: Props) => {
       setValue('description', description)
       setValue('priority', priority)
       setValue('status', status)
-      setValue('remind_datetime', remind_datetime)
+      // setValue('remind_datetime', remind_datetime)
+      console.log('getValues', getValues())
     })
+    // console.log('register',register)
   }, [])
 
   const { register, handleSubmit, formState, setValue, getValues } =
@@ -63,16 +68,29 @@ const Task = ({}: Props) => {
   const { errors, isDirty, isValid, isSubmitting } = formState
 
   const submitForm = async (updateTaskPayload: IUpdateTaskPayload) => {
-    // console.log(updateTaskPayload);
-    // if (result.type === 'auth/update-Task/fulfilled') {
-    //   setMode(() => Mode.show)
-    //   AppToast.success('Task successfully updated')
-    // }
-    // console.log(result.payload.data.errors);
+    try {
+      const result = (await appAxios.put(`/tasks/${id}`, updateTaskPayload))
+        .data
+      setTask(() => result)
+      setMode(() => Mode.show)
+      AppToast.success('Task successfully updated')
+    } catch (error) {
+      console.log(error?.response?.data)
+      AppToast.error(error?.response?.data)
+    }
   }
 
   const changeMode = () => {
-    setMode(() => (mode == Mode.edit ? Mode.show : Mode.edit))
+    if (mode == Mode.edit) {
+      setValue('title', task?.title as string)
+      setValue('description', task?.description as string)
+      // setValue('priority', task?.priority as number)
+      setValue('status', task?.status as 'done' | 'ongoing')
+
+      setMode(() => Mode.show)
+    } else {
+      setMode(() => Mode.edit)
+    }
   }
 
   const deleteHandler = (id: any) => {
@@ -87,52 +105,69 @@ const Task = ({}: Props) => {
       <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         Task
       </h2>
-      <form
-        onSubmit={handleSubmit(submitForm)}
-        className="relative pt-10 pb-3 px-10 bg-white rounded-lg shadow-md dark:bg-gray-800 flex lg:gap-10 lg:p-16 justify-center items-center flex-col"
-      >
-        <EditMode changeMode={changeMode} />
+      {getValues().status && (
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className="relative pt-10 pb-3 px-10 bg-white rounded-lg shadow-md dark:bg-gray-800 flex lg:gap-10 lg:p-16 justify-center items-center flex-col"
+        >
+          <EditMode changeMode={changeMode} />
+          <AppInput
+            register={register('title')}
+            id="title"
+            label="title"
+            error={errors.title}
+            disable={mode == Mode.show}
+          />
+          <AppTextArea
+            register={register('description')}
+            id="description"
+            label="description"
+            error={errors.description}
+            disable={mode == Mode.show}
+          />
 
-        <AppInput
-          register={register('title')}
-          id="title"
-          label="title"
-          error={errors.title}
-          disable={mode == Mode.show}
-        />
-        <AppTextArea
-          register={register('description')}
-          id="description"
-          label="description"
-          error={errors.description}
-          disable={mode == Mode.show}
-        />
-        <AppRatioInput
-          label="status"
-          options={options}
-          register={register('status')}
-          disable={mode == Mode.show}
-          checked={getValues('status')}
-        />
-        {/* <AppDateInput /> */}
-
-        {mode == Mode.edit ? (
-          <div className="w-full mt-6 pb-2">
-            <AppButton
-              text="Submit"
-              loading={isSubmitting}
-              disable={!isDirty || !isValid || isSubmitting}
+          {mode == Mode.show ? (
+            <div className="w-full pb-3 flex gap-2 text-gray-400">
+              <p>status: </p>
+              <p>{task?.status}</p>
+            </div>
+          ) : (
+            <AppRatioInput
+              label="status"
+              options={options}
+              register={register('status')}
+              // disable={mode == Mode.show}
             />
-          </div>
-        ) : (
-          <div
-            onClick={() => deleteHandler(task?.id)}
-            className="w-full mt-6 pb-2"
-          >
-            <Button delet title="Delete" />
-          </div>
-        )}
-      </form>
+          )}
+
+          <AppSelectBox
+            setValue={setValue}
+            id="priority"
+            items={priorities}
+            label="priority"
+            selectedItemIndex={2}
+            error={errors.priority}
+          />
+          {/* <AppDateInput /> */}
+
+          {mode == Mode.edit ? (
+            <div className="w-full mt-6 pb-2">
+              <AppButton
+                text="Submit"
+                loading={isSubmitting}
+                disable={!isDirty || !isValid || isSubmitting}
+              />
+            </div>
+          ) : (
+            <div
+              onClick={() => deleteHandler(task?.id)}
+              className="w-full mt-6 pb-2"
+            >
+              <Button delet title="Delete" />
+            </div>
+          )}
+        </form>
+      )}
     </div>
   )
 }

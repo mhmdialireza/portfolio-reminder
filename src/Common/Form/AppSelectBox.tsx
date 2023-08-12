@@ -10,10 +10,9 @@ import {
   UseFormSetValue
 } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { AddSchema } from '../../Schema/task.schema'
 
 type Props = {
-  setValue: UseFormSetValue<AddSchema>
+  setValue: UseFormSetValue<any>
   id: string
   label: string
   items: SelectBoxItemsType

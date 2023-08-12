@@ -13,7 +13,7 @@ import AppToast from '../Utils/toastUtils'
 
 type Props = {}
 
-const priorities: SelectBoxItemsType = [
+export const priorities: SelectBoxItemsType = [
   { id: 1, title: 'very low', unavailable: false },
   { id: 2, title: 'low', unavailable: false },
   { id: 3, title: 'normal', unavailable: false },
@@ -32,7 +32,7 @@ const AddTask = ({}: Props) => {
 
   const submitForm = async (addTaskPayload: IAddTaskPayload) => {
     try {
-      ;(await appAxios.post('/tasks/add', addTaskPayload)).data
+      (await appAxios.post('/tasks/add', addTaskPayload)).data
       AppToast.success('Task added successfully')
       navigate('/tasks')
     } catch (error) {

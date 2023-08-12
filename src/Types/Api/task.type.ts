@@ -25,7 +25,7 @@ export interface IUpdateTaskPayload {
     description: string
     priority: number
     status: 'done' | 'ongoing'
-    remind_datetime?: string
+    // remind_datetime?: string
 }
 
 

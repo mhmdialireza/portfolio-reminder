@@ -48,9 +48,9 @@ export const updateTaskSchema = z
     ),
     status: z
       .enum(['done', 'ongoing']),
-    remind_datetime: z
-      .string()
-      .optional()
+    // remind_datetime: z
+    //   .string()
+    //   .optional()
   })
 
 export type UpdateTaskSchema = z.infer<typeof updateTaskSchema>
