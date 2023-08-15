@@ -29,9 +29,12 @@ const Task = ({ task }: Props) => {
         {status == 'done' ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
       </td>
       <td className="flex items-center justify-center flex-3 md:flex-7 lg:flex-10">
-        <Link to={`/tasks/${id}`} className="flex items-center text-sm w-full">
+        <div
+          // to={`/tasks/${id}`}
+          className="flex items-center text-sm w-full"
+        >
           <p className="font-semibold">{title}</p>
-        </Link>
+        </div>
       </td>
       <td className="flex items-center justify-center flex-1">
         <div className="flex items-center justify-center text-sm">
@@ -39,7 +42,7 @@ const Task = ({ task }: Props) => {
         </div>
       </td>
       <td className="flex items-center justify-center flex-1">
-        <Link to={`task/${id}`}>
+        <Link to={`/tasks/${id}`}>
           <FiExternalLink />
         </Link>
       </td>

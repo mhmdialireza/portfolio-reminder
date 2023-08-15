@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import cn from 'classnames'
 
 interface Props {
   title: string
@@ -10,9 +10,9 @@ interface Props {
 const Button = ({ title, delet, disable = false }: Props) => {
   return (
     <button
-      type="submit"
+      type={delet == false ? 'submit' : 'button'}
       disabled={disable}
-      className={classNames(
+      className={cn(
         'w-full cursor-pointer flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none',
         {
           'bg-purple-600 active:bg-purple-600 hover:bg-purple-700 focus:shadow-outline-purple':

@@ -31,15 +31,15 @@ const Tasks = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    let status: string = filter.title
+    const status: string = filter.title
 
-    let column: 'created_at' | 'priority' = ['latest', 'oldest'].includes(
+    const column: 'created_at' | 'priority' = ['latest', 'oldest'].includes(
       sort.title
     )
       ? 'created_at'
       : 'priority'
 
-    let order: Order = ['latest', 'high priority'].includes(sort.title)
+    const order: Order = ['latest', 'high priority'].includes(sort.title)
       ? Order.dsc
       : Order.asc
 
