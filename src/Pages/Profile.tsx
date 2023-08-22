@@ -5,11 +5,10 @@ import { useAppDispatch, useAppSelector } from '../Redux/App/hooks'
 import { useForm } from 'react-hook-form'
 import { IUpdateProfilePayload } from '../Types/Api/auth.type'
 import { UpdateProfileSchema, updateProfileSchema } from '../Schema/auth.schema'
-import { updateProfile, userInfo } from '../Redux/Features/Auth/authService'
+import { updateProfile } from '../Redux/Features/Auth/authService'
 import AppFileInput from '../Common/Form/AppFileInput'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
-import Button from '../Common/Button'
 import EditMode from '../Components/EditMode'
 import AppToast from '../Utils/toastUtils'
 import { BASE_URL } from '../Services/Axios/config'
@@ -49,52 +48,52 @@ const Profile = ({}: Props) => {
   }
 
   return (
-    <div className="container px-6 mx-auto grid">
-      <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    <div className='container mx-auto grid px-6'>
+      <h2 className='my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200'>
         Profile
       </h2>
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="relative px-4 py-5 bg-white rounded-lg shadow-md dark:bg-gray-800 flex lg:flex-row lg:gap-10 lg:p-16 justify-center items-center flex-col"
+        className='relative flex flex-col items-center justify-center rounded-lg bg-white px-4 py-5 shadow-md dark:bg-gray-800 lg:flex-row lg:gap-10 lg:p-16'
       >
         <EditMode changeMode={changeMode} />
-        <div className="rounded-full overflow-hidden w-44 h-44 lg:w-80 lg:h-80 flex items-center justify-center">
+        <div className='flex h-44 w-44 items-center justify-center overflow-hidden rounded-full lg:h-80 lg:w-80'>
           <img
             src={
               user?.profile_image_path
                 ? BASE_URL + user?.profile_image_path
                 : '/img/avatar.jpg'
             }
-            alt="profile image"
+            alt='profile image'
           />
         </div>
-        <div className="flex-1 w-full">
+        <div className='w-full flex-1'>
           {mode == Mode.edit && (
             <AppFileInput
               register={register('profile_image')}
-              id="profile_image"
-              label="profile image"
+              id='profile_image'
+              label='profile image'
               error={errors.profile_image}
             />
           )}
           <AppInput
             register={register('username')}
-            id="username"
-            label="username"
+            id='username'
+            label='username'
             error={errors.username}
             disable={mode == Mode.show}
           />
           <AppInput
             register={register('email')}
-            id="email"
-            label="email"
+            id='email'
+            label='email'
             error={errors.email}
             disable={mode == Mode.show}
           />
-          <div className="mt-6 pb-2">
+          <div className='mt-6 pb-2'>
             {mode == Mode.edit && (
               <AppButton
-                text="Submit"
+                text='Submit'
                 loading={isSubmitting}
                 disable={!isDirty || !isValid || isSubmitting}
               />

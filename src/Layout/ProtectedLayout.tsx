@@ -1,11 +1,10 @@
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import AppLoader from '../Common/AppLoader'
 import { userInfo } from '../Redux/Features/Auth/authService'
 import { useAppDispatch, useAppSelector } from '../Redux/App/hooks'
 import { authSelector } from '../Redux/Features/Auth/authSlice'
-import MasterLayout from './MasterLayout'
 
-export default function ProtectedLayout({ children }: PropsWithChildren) {
+const ProtectedLayout = ({ children }: PropsWithChildren) => {
   const { user } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
 
@@ -14,10 +13,12 @@ export default function ProtectedLayout({ children }: PropsWithChildren) {
   }, [dispatch])
 
   return user ? (
-    <MasterLayout>{children}</MasterLayout>
+    <>{children}</>
   ) : (
-    <div className="h-screen w-full grid place-items-center">
+    <div className='grid h-screen w-full place-items-center'>
       <AppLoader />
     </div>
   )
 }
+
+export default ProtectedLayout

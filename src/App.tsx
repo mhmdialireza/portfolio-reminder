@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import AppRoutes from './Routes/AppRoutes'
 import storage from './Utils/storage'
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css'
 import './react-datepicker.css'
 
 function App() {

@@ -6,12 +6,15 @@ import AddTask from '../Pages/AddTask'
 import Profile from '../Pages/Profile'
 import Home from '../Pages/Home'
 import Task from '../Pages/Task'
+import AppLayout from '../Layout/AppLayout'
 
 const ProtectedRoutes = () => {
   return (
-    <ProtectedLayout>
-      <Outlet />
-    </ProtectedLayout>
+    <AppLayout>
+      <ProtectedLayout>
+        <Outlet />
+      </ProtectedLayout>
+    </AppLayout>
   )
 }
 
@@ -20,10 +23,6 @@ const protectedRoutes: RouteObject[] = [
     path: '',
     element: <ProtectedRoutes />,
     children: [
-      {
-        path: '',
-        element: <Home />
-      },
       {
         path: 'tasks',
         children: [

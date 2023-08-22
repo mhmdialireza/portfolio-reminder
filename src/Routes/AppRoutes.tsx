@@ -4,24 +4,27 @@ import { useAppSelector } from '../Redux/App/hooks'
 import notFoundRoute from './Common/NotFoundRoute'
 import authRoute from './Common/AuthRoute'
 import protectedRoutes from './ProtectedRoutes'
+import homeRoute from './Common/HomeRoute'
+import MasterLayout from '../Layout/MasterLayout'
 
 function AppRoutes() {
   let routes: RouteObject[] = []
 
   const { token } = useAppSelector(authSelector)
 
+  routes.push(homeRoute)
+
   if (token) {
-    routes = [...protectedRoutes]
+    routes = [...routes,...protectedRoutes]
   } else {
-    routes = [...authRoute]
+    routes = [...routes,...authRoute]
   }
 
+  // should be the last one
   routes.push(notFoundRoute)
 
-  // console.log(routes);
-
   const element = useRoutes(routes)
-  return <div>{element}</div>
+  return <MasterLayout>{element}</MasterLayout>
 }
 
 export default AppRoutes

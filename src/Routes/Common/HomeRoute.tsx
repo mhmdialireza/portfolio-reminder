@@ -2,27 +2,25 @@ import { Outlet, RouteObject } from 'react-router-dom'
 import ProtectedLayout from '../../Layout/ProtectedLayout'
 import NotFound from '../../Pages/NotFound'
 import MasterLayout from '../../Layout/AppLayout'
+import Home from '../../Pages/Home'
 
-const NotFoundRoute = () => {
+const HomeRoute = () => {
   return (
-    <MasterLayout>
+    <ProtectedLayout>
       <Outlet />
-    </MasterLayout>
-    // <ProtectedLayout>
-    //   <Outlet />
-    // </ProtectedLayout>
+    </ProtectedLayout>
   )
 }
 
-const notFoundRoute: RouteObject = {
+const homeRoute: RouteObject = {
   path: '',
-  // element: <NotFoundRoute />,
+  // element: <HomeRoute />,
   children: [
     {
-      path: '*',
-      element: <NotFound />
+      path: '/',
+      element: <Home />
     }
   ]
 }
 
-export default notFoundRoute
+export default homeRoute
