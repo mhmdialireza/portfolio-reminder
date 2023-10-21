@@ -15,7 +15,7 @@ const ProtectedLayout = ({ children }: PropsWithChildren) => {
   return user ? (
     <>{children}</>
   ) : (
-    <div className='grid h-screen w-full place-items-center'>
+    <div className='grid h-[90vh] w-full place-items-center'>
       <AppLoader />
     </div>
   )

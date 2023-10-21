@@ -45,7 +45,8 @@ const authSlice = createSlice({
 
       storage.setToken(payload.token)
     })
-    builder.addCase(loginUser.rejected, (state, { payload }) => {
+    builder.addCase(loginUser.rejected, (state, {payload}) => {
+      // console.log(z);
       AppToast.error(payload)
     })
 

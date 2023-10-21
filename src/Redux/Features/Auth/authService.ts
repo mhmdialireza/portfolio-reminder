@@ -25,7 +25,7 @@ export const loginUser = createAsyncThunk(
     try {
       return (await appAxios.post(`${BASE_NAME}login`, data)).data
     } catch (error: any) {
-      return rejectWithValue(error?.response?.data?.error)
+      return rejectWithValue(error?.response?.data)
     }
   }
 )

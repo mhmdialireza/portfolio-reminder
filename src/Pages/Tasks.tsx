@@ -9,6 +9,7 @@ import { taskSelector } from '../Redux/Features/Task/taskSlice'
 import { useEffect } from 'react'
 import { filter as filterService } from './../Redux/Features/Task/taskService'
 import { Order } from '../Enums/api.enum'
+import AppLoader from '../Common/AppLoader'
 
 const orderItems: SelectBoxItemsType = [
   { id: 1, title: 'latest', unavailable: false },
@@ -26,7 +27,7 @@ const filterItems: SelectBoxItemsType = [
 // const pageSize = 7
 
 const Tasks = () => {
-  const { tasks } = useAppSelector(taskSelector)
+  const { tasks, status } = useAppSelector(taskSelector)
   const dispatch = useAppDispatch()
   // const [itemOffset, setItemOffset] = useState(0)
   // const endOffset = itemOffset + pageSize
@@ -37,6 +38,7 @@ const Tasks = () => {
   //   const newOffset = (event.selected * pageSize) % tasks.length
   //   setItemOffset(newOffset)
   // }
+
   const [sort, setSort] = useState<SelectBoxItemType>(orderItems[0])
   const [filter, setFilter] = useState<SelectBoxItemType>(filterItems[0])
 
@@ -56,57 +58,64 @@ const Tasks = () => {
     dispatch(filterService({ column, status, order }))
   }, [sort, filter])
 
-  return (
-    <div className='container max-w-3xl m-auto'>
-      <div className='w-full my-6 flex items-center justify-between font-semibold text-gray-700 dark:text-gray-200'>
-        <h2 className='text-3xl'>Tasks</h2>
-        <div className='flex gap-3'>
-          <SelectBox
-            title='Sort'
-            items={orderItems}
-            selectedItem={sort}
-            setSelectedItem={setSort}
-          />
-          <SelectBox
-            title='Filter'
-            items={filterItems}
-            selectedItem={filter}
-            setSelectedItem={setFilter}
-          />
-        </div>
+  if (status == 'loading')
+    return (
+      <div className='w-full h-[90vh] grid justify-items-center'>
+        <AppLoader />
       </div>
-      <div className='shadow-xs w-full overflow-hidden rounded-lg'>
-        <div className='w-full overflow-x-auto'>
-          <table className='whitespace-no-wrap w-full'>
-            <thead>
-              <tr className='flex border-b bg-gray-50 p-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400'>
-                <th className='flex flex-1 items-center justify-center'>
-                  Status
-                </th>
-                <th className='flex flex-3 items-center justify-start md:flex-7 lg:flex-10'>
-                  Title
-                </th>
-                <th className='flex flex-1 items-center justify-center'>
-                  Priority
-                </th>
-                <th className='flex flex-1 items-center justify-center'>
-                  Open
-                </th>
-              </tr>
-            </thead>
-            <tbody className='divide-y bg-white dark:divide-gray-700 dark:bg-gray-800'>
-              {tasks.map(task => (
-                <Task key={task.id} task={task} />
-              ))}
-            </tbody>
-          </table>
+    )
+  else
+    return (
+      <div className='container m-auto max-w-3xl'>
+        <div className='my-6 flex w-full items-center justify-between font-semibold text-gray-700 dark:text-gray-200'>
+          <h2 className='text-3xl'>Tasks</h2>
+          <div className='flex gap-3'>
+            <SelectBox
+              title='Sort'
+              items={orderItems}
+              selectedItem={sort}
+              setSelectedItem={setSort}
+            />
+            <SelectBox
+              title='Filter'
+              items={filterItems}
+              selectedItem={filter}
+              setSelectedItem={setFilter}
+            />
+          </div>
         </div>
-        <div className='flex items-center justify-center border-t bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:grid-cols-9'>
-          {/* <span className="flex items-center col-span-3">
+        <div className='shadow-xs w-full overflow-hidden rounded-lg'>
+          <div className='w-full overflow-x-auto'>
+            <table className='whitespace-no-wrap w-full'>
+              <thead>
+                <tr className='flex border-b bg-gray-50 p-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400'>
+                  <th className='flex flex-1 items-center justify-center'>
+                    Status
+                  </th>
+                  <th className='flex flex-3 items-center justify-start md:flex-7 lg:flex-10'>
+                    Title
+                  </th>
+                  <th className='flex flex-1 items-center justify-center'>
+                    Priority
+                  </th>
+                  <th className='flex flex-1 items-center justify-center'>
+                    Open
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='divide-y bg-white dark:divide-gray-700 dark:bg-gray-800'>
+                {tasks.map(task => (
+                  <Task key={task.id} task={task} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className='flex items-center justify-center border-t bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:grid-cols-9'>
+            {/* <span className="flex items-center col-span-3">
             Showing 21-30 of 100
           </span> 
            <span className="col-span-2"></span> */}
-          {/* <span className='col-span-4 mt-2 flex sm:mt-auto sm:justify-end'>
+            {/* <span className='col-span-4 mt-2 flex sm:mt-auto sm:justify-end'>
             <nav aria-label='Table navigation'>
               <ul className='inline-flex items-center'>
                 <li>
@@ -181,7 +190,7 @@ const Tasks = () => {
               </ul>
             </nav>
           </span> */}
-          {/* <ReactPaginate
+            {/* <ReactPaginate
             breakLabel='...'
             nextLabel='next >'
             onPageChange={handlePageClick}
@@ -190,10 +199,10 @@ const Tasks = () => {
             previousLabel='< previous'
             renderOnZeroPageCount={null}
           /> */}
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
 }
 
 export default Tasks
