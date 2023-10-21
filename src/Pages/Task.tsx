@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import AppButton from '../Common/Form/AppButton'
 import AppInput from '../Common/Form/AppInput'
-import { useAppDispatch } from '../Redux/App/hooks'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import EditMode from '../Components/EditMode'
@@ -11,17 +10,13 @@ import { UpdateTaskSchema, updateTaskSchema } from '../Schema/task.schema'
 import ITask from '../Types/task.type'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IUpdateTaskPayload } from '../Types/Api/task.type'
-import { updateTask } from '../Redux/Features/Task/taskService'
 import AppTextArea from '../Common/Form/AppTextArea'
 import AppRatioInput from '../Common/Form/AppRatioInput'
-import AppDateInput from '../Common/Form/AppDateInput'
 import Button from '../Common/Button'
-import { Status } from '../Enums/api.enum'
 import AppSelectBox from '../Common/Form/AppSelectBox'
 import { priorities } from './AddTask'
 import AppLoader from '../Common/AppLoader'
 import useAppModal from './../Hooks/useAppModal'
-import { classNames } from 'classnames'
 
 enum Mode {
   show = 'show',
@@ -116,39 +111,39 @@ const Task = ({}: Props) => {
   } else {
     return (
       <>
-        <div className="container px-6 mx-auto grid">
-          <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <div className='container mx-auto grid max-w-3xl px-6'>
+          <h2 className='my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200'>
             Task
           </h2>
           {getValues().status && (
             <form
               onSubmit={handleSubmit(submitForm)}
-              className="relative pt-10 pb-3 px-10 bg-white rounded-lg shadow-md dark:bg-gray-800 flex lg:gap-10 lg:p-16 justify-center items-center flex-col"
+              className='relative flex flex-col items-center justify-center rounded-lg bg-white px-12 pb-6 pt-12 shadow-md dark:bg-gray-800'
             >
               <EditMode changeMode={changeMode} />
               <AppInput
                 register={register('title')}
-                id="title"
-                label="title"
+                id='title'
+                label='title'
                 error={errors.title}
                 disable={mode == Mode.show}
               />
               <AppTextArea
                 register={register('description')}
-                id="description"
-                label="description"
+                id='description'
+                label='description'
                 error={errors.description}
                 disable={mode == Mode.show}
               />
 
               {mode == Mode.show ? (
-                <div className="w-full pb-3 flex gap-2 text-gray-400">
+                <div className='flex w-full gap-2 pb-3 text-gray-400'>
                   <p>status: </p>
                   <p>{task?.status}</p>
                 </div>
               ) : (
                 <AppRatioInput
-                  label="status"
+                  label='status'
                   options={options}
                   register={register('status')}
                 />
@@ -156,67 +151,68 @@ const Task = ({}: Props) => {
 
               <AppSelectBox
                 setValue={setValue}
-                id="priority"
+                id='priority'
                 items={priorities}
-                label="priority"
+                label='priority'
                 selectedItemIndex={2}
                 error={errors.priority}
+                disable={mode == Mode.show}
               />
               {/* <AppDateInput /> */}
 
               {mode == Mode.edit ? (
-                <div className="w-full mt-6 pb-2">
+                <div className='mt-6 w-full pb-2'>
                   <AppButton
-                    text="Submit"
+                    text='Submit'
                     loading={isSubmitting}
                     disable={!isDirty || !isValid || isSubmitting}
                   />
                 </div>
               ) : (
-                <div onClick={open} className="w-full mt-6 pb-2">
-                  <Button delet title="Delete" />
+                <div onClick={open} className='mt-6 w-full pb-2'>
+                  <Button delet title='Delete' />
                 </div>
               )}
             </form>
           )}
         </div>
         <ModalWrapper>
-          <div className="w-full py-4 px-7 flex flex-col gap-3 rounded-lg dark:bg-gray-800 sm:rounded-lg">
-            <header className="flex justify-end">
+          <div className='flex w-full flex-col gap-3 rounded-lg px-7 py-4 dark:bg-gray-800 sm:rounded-lg'>
+            <header className='flex justify-end'>
               <button
-                className="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover:text-gray-700"
+                className='inline-flex h-6 w-6 items-center justify-center rounded text-gray-400 transition-colors duration-150 hover:text-gray-700 dark:hover:text-gray-200'
                 onClick={() => close()}
               >
                 <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+                  className='h-4 w-4'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
                 >
                   <path
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                    fill-rule="evenodd"
+                    d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                    clip-rule='evenodd'
+                    fill-rule='evenodd'
                   ></path>
                 </svg>
               </button>
             </header>
-            <div className="">
-              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <div className=''>
+              <p className='text-lg font-semibold text-gray-700 dark:text-gray-300'>
                 Confirm
               </p>
-              <p className="text-sm text-gray-700 dark:text-gray-400">
+              <p className='text-sm text-gray-700 dark:text-gray-400'>
                 Do you want to delete this task?
               </p>
             </div>
-            <footer className="pt-3 flex flex-row gap-4 items-center justify-center bg-gray-50 dark:bg-gray-800">
+            <footer className='flex flex-row items-center justify-center gap-4 bg-gray-50 pt-3 dark:bg-gray-800'>
               <button
-                className="w-full px-5 py-3 text-sm font-medium text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                className='focus:shadow-outline-gray w-full rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium text-gray-700 transition-colors duration-150 hover:border-gray-500 focus:border-gray-500 focus:outline-none active:bg-transparent active:text-gray-500 dark:text-gray-400 sm:w-auto sm:px-4 sm:py-2'
                 onClick={() => close()}
               >
                 No
               </button>
               <button
-                className="w-full px-5 py-3 text-sm font-medium text-white transition-colors duration-150 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 focus:outline-none focus:shadow-outline-purple bg-red-600 active:bg-red-600 hover:bg-red-700 focus:shadow-outline-red"
+                className='focus:shadow-outline-purple focus:shadow-outline-red w-full rounded-lg border border-transparent bg-red-600 px-5 py-3 text-sm font-medium text-white transition-colors duration-150 hover:bg-red-700 focus:outline-none active:bg-red-600 sm:w-auto sm:px-4 sm:py-2'
                 onClick={deleteHandler}
               >
                 Yes

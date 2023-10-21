@@ -1,7 +1,5 @@
 import { Listbox } from '@headlessui/react'
-import {
-  SelectBoxItemsType
-} from '../../Components/SelectBox'
+import { SelectBoxItemsType } from '../../Components/SelectBox'
 import { AiOutlineDown } from 'react-icons/ai'
 import {
   FieldError,
@@ -18,6 +16,7 @@ type Props = {
   items: SelectBoxItemsType
   selectedItemIndex: number
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined
+  disable?: Boolean
 }
 
 const AppSelectBox = ({
@@ -26,7 +25,8 @@ const AppSelectBox = ({
   label,
   items,
   selectedItemIndex,
-  error
+  error,
+  disable = false
 }: Props) => {
   const [selectedItem, setSelectedItem] = useState(items[selectedItemIndex])
 
@@ -35,22 +35,26 @@ const AppSelectBox = ({
   }, [selectedItem])
 
   return (
-    <div className="relative w-full text-gray-700 dark:text-gray-400  flex flex-col text-sm gap-1 [&>*]:px-4">
+    <div className='relative flex w-full flex-col  gap-1 text-sm text-gray-700 dark:text-gray-400 [&>*]:px-4'>
       <label htmlFor={id}>{label}:</label>
-      <div className="border-2 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 dark:text-gray-300 dark:focus:shadow-outline-gray flex flex-col justify-between items-center bg-white w-full py-2 rounded-lg">
-        <Listbox value={selectedItem} onChange={setSelectedItem}>
-          <Listbox.Button className="capitalize border-purple-400 dark:border-gray-600 flex justify-between items-center w-full">
+      <div className='dark:focus:shadow-outline-gray flex w-full flex-col items-center justify-between rounded-lg border-2 bg-white py-2 focus:border-purple-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300'>
+        <Listbox
+          value={selectedItem}
+          onChange={setSelectedItem}
+          disabled={disable}
+        >
+          <Listbox.Button className='flex w-full items-center justify-between border-purple-400 capitalize dark:border-gray-600'>
             {selectedItem.title}
             <AiOutlineDown />
           </Listbox.Button>
-          <Listbox.Options className="absolute dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md shadow-purple-200 dark:shadow-gray-900 top-16 w-full p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md">
+          <Listbox.Options className='focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input absolute top-16 mt-2 w-full space-y-2 rounded-md border border-gray-100 bg-white p-2 text-gray-600 shadow-md shadow-purple-200 focus:border-purple-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:shadow-gray-900'>
             {items.map(item => (
               <Listbox.Option
                 key={item.id}
                 value={item}
                 disabled={item.unavailable}
               >
-                <p className="capitalize cursor-pointer inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200 ui-active:bg-gray-200 dark:ui-active:bg-gray-800">
+                <p className='inline-flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-sm font-semibold capitalize transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800 ui-active:bg-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:ui-active:bg-gray-800'>
                   {item.title}
                 </p>
               </Listbox.Option>
@@ -58,7 +62,7 @@ const AppSelectBox = ({
           </Listbox.Options>
         </Listbox>
       </div>
-      <p className="text-red-600">{error?.message as string}</p>
+      <p className='text-red-600'>{error?.message as string}</p>
     </div>
   )
 }

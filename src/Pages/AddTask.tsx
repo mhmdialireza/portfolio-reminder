@@ -32,7 +32,7 @@ const AddTask = ({}: Props) => {
 
   const submitForm = async (addTaskPayload: IAddTaskPayload) => {
     try {
-      (await appAxios.post('/tasks/add', addTaskPayload)).data
+      ;(await appAxios.post('/tasks/add', addTaskPayload)).data
       AppToast.success('Task added successfully')
       navigate('/tasks')
     } catch (error) {
@@ -42,45 +42,45 @@ const AddTask = ({}: Props) => {
   }
 
   return (
-    <>
-      <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    <main className='container mx-auto grid max-w-3xl justify-items-center px-6'>
+      <h2 className='my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200'>
         Add Task
       </h2>
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+        className='mb-8 w-full rounded-lg bg-white px-4 py-3 shadow-md dark:bg-gray-800'
       >
         <AppInput
-          id="title"
-          label="title"
+          id='title'
+          label='title'
           register={register('title')}
           error={errors.title}
         />
 
         <AppTextArea
-          id="description"
-          label="description"
+          id='description'
+          label='description'
           register={register('description')}
           error={errors.description}
         />
 
         <AppSelectBox
           setValue={setValue}
-          id="priority"
+          id='priority'
           items={priorities}
-          label="priority"
+          label='priority'
           selectedItemIndex={2}
           error={errors.priority}
         />
-        <div className="mt-6 pb-2">
+        <div className='mt-6 pb-2'>
           <AppButton
-            text="Add"
+            text='Add'
             loading={isSubmitting}
             disable={!isDirty || !isValid || isSubmitting}
           />
         </div>
       </form>
-    </>
+    </main>
   )
 }
 

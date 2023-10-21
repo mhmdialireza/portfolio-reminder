@@ -48,16 +48,16 @@ const Profile = ({}: Props) => {
   }
 
   return (
-    <div className='container mx-auto grid px-6'>
+    <main className='container max-w-3xl mx-auto grid justify-items-center px-6'>
       <h2 className='my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200'>
         Profile
       </h2>
       <form
         onSubmit={handleSubmit(submitForm)}
-        className='relative flex flex-col items-center justify-center rounded-lg bg-white px-4 py-5 shadow-md dark:bg-gray-800 lg:flex-row lg:gap-10 lg:p-16'
+        className='relative flex w-full flex-col items-center justify-center rounded-lg bg-white px-4 py-5 shadow-md dark:bg-gray-800'
       >
         <EditMode changeMode={changeMode} />
-        <div className='flex h-44 w-44 items-center justify-center overflow-hidden rounded-full lg:h-80 lg:w-80'>
+        <div className='flex h-44 w-44 items-center justify-center overflow-hidden rounded-full'>
           <img
             src={
               user?.profile_image_path
@@ -101,7 +101,7 @@ const Profile = ({}: Props) => {
           </div>
         </div>
       </form>
-    </div>
+    </main>
   )
 }
 

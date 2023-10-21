@@ -23,12 +23,22 @@ const filterItems: SelectBoxItemsType = [
   { id: 3, title: 'ongoing', unavailable: false }
 ]
 
-const Tasks = () => {
-  const [sort, setSort] = useState<SelectBoxItemType>(orderItems[0])
-  const [filter, setFilter] = useState<SelectBoxItemType>(filterItems[0])
+// const pageSize = 7
 
+const Tasks = () => {
   const { tasks } = useAppSelector(taskSelector)
   const dispatch = useAppDispatch()
+  // const [itemOffset, setItemOffset] = useState(0)
+  // const endOffset = itemOffset + pageSize
+  // const currentTasks = tasks.slice(itemOffset, endOffset)
+  // const pageCount = Math.ceil(tasks.length / pageSize)
+
+  // const handlePageClick = (event: any) => {
+  //   const newOffset = (event.selected * pageSize) % tasks.length
+  //   setItemOffset(newOffset)
+  // }
+  const [sort, setSort] = useState<SelectBoxItemType>(orderItems[0])
+  const [filter, setFilter] = useState<SelectBoxItemType>(filterItems[0])
 
   useEffect(() => {
     const status: string = filter.title
@@ -44,136 +54,145 @@ const Tasks = () => {
       : Order.asc
 
     dispatch(filterService({ column, status, order }))
-  }, [sort, filter, tasks])
+  }, [sort, filter])
 
   return (
-    <>
-      <div className="flex justify-between items-center my-6 font-semibold text-gray-700 dark:text-gray-200">
-        <h2 className="text-3xl ">Tasks</h2>
-        <div className="flex gap-3">
+    <div className='container max-w-3xl m-auto'>
+      <div className='w-full my-6 flex items-center justify-between font-semibold text-gray-700 dark:text-gray-200'>
+        <h2 className='text-3xl'>Tasks</h2>
+        <div className='flex gap-3'>
           <SelectBox
-            title="Sort"
+            title='Sort'
             items={orderItems}
             selectedItem={sort}
             setSelectedItem={setSort}
           />
           <SelectBox
-            title="Filter"
+            title='Filter'
             items={filterItems}
             selectedItem={filter}
             setSelectedItem={setFilter}
           />
         </div>
       </div>
-      <div className="w-full overflow-hidden rounded-lg shadow-xs">
-        <div className="w-full overflow-x-auto">
-          <table className="w-full whitespace-no-wrap">
+      <div className='shadow-xs w-full overflow-hidden rounded-lg'>
+        <div className='w-full overflow-x-auto'>
+          <table className='whitespace-no-wrap w-full'>
             <thead>
-              <tr className="flex text-xs font-semibold tracking-wide text-gray-500 uppercase p-3 border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                <th className="flex items-center justify-center flex-1">
+              <tr className='flex border-b bg-gray-50 p-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400'>
+                <th className='flex flex-1 items-center justify-center'>
                   Status
                 </th>
-                <th className="flex items-center justify-start flex-3 md:flex-7 lg:flex-10">
+                <th className='flex flex-3 items-center justify-start md:flex-7 lg:flex-10'>
                   Title
                 </th>
-                <th className="flex items-center justify-center flex-1">
+                <th className='flex flex-1 items-center justify-center'>
                   Priority
                 </th>
-                <th className="flex items-center justify-center flex-1">
+                <th className='flex flex-1 items-center justify-center'>
                   Open
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tbody className='divide-y bg-white dark:divide-gray-700 dark:bg-gray-800'>
               {tasks.map(task => (
                 <Task key={task.id} task={task} />
               ))}
             </tbody>
           </table>
         </div>
-        <div className="flex items-center justify-center px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+        <div className='flex items-center justify-center border-t bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:grid-cols-9'>
           {/* <span className="flex items-center col-span-3">
             Showing 21-30 of 100
           </span> 
            <span className="col-span-2"></span> */}
-          <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-            <nav aria-label="Table navigation">
-              <ul className="inline-flex items-center">
+          {/* <span className='col-span-4 mt-2 flex sm:mt-auto sm:justify-end'>
+            <nav aria-label='Table navigation'>
+              <ul className='inline-flex items-center'>
                 <li>
                   <button
-                    className="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Previous"
+                    className='focus:shadow-outline-purple rounded-md rounded-l-lg px-3 py-1 focus:outline-none'
+                    aria-label='Previous'
                   >
                     <svg
-                      aria-hidden="true"
-                      className="w-4 h-4 fill-current"
-                      viewBox="0 0 20 20"
+                      aria-hidden='true'
+                      className='h-4 w-4 fill-current'
+                      viewBox='0 0 20 20'
                     >
                       <path
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
+                        d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                        clipRule='evenodd'
+                        fillRule='evenodd'
                       ></path>
                     </svg>
                   </button>
                 </li>
                 <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md px-3 py-1 focus:outline-none'>
                     1
                   </button>
                 </li>
                 <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md px-3 py-1 focus:outline-none'>
                     2
                   </button>
                 </li>
                 <li>
-                  <button className="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md border border-r-0 border-purple-600 bg-purple-600 px-3 py-1 text-white transition-colors duration-150 focus:outline-none'>
                     3
                   </button>
                 </li>
                 <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md px-3 py-1 focus:outline-none'>
                     4
                   </button>
                 </li>
                 <li>
-                  <span className="px-3 py-1">...</span>
+                  <span className='px-3 py-1'>...</span>
                 </li>
                 <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md px-3 py-1 focus:outline-none'>
                     8
                   </button>
                 </li>
                 <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                  <button className='focus:shadow-outline-purple rounded-md px-3 py-1 focus:outline-none'>
                     9
                   </button>
                 </li>
                 <li>
                   <button
-                    className="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Next"
+                    className='focus:shadow-outline-purple rounded-md rounded-r-lg px-3 py-1 focus:outline-none'
+                    aria-label='Next'
                   >
                     <svg
-                      className="w-4 h-4 fill-current"
-                      aria-hidden="true"
-                      viewBox="0 0 20 20"
+                      className='h-4 w-4 fill-current'
+                      aria-hidden='true'
+                      viewBox='0 0 20 20'
                     >
                       <path
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
+                        d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                        clipRule='evenodd'
+                        fillRule='evenodd'
                       ></path>
                     </svg>
                   </button>
                 </li>
               </ul>
             </nav>
-          </span>
+          </span> */}
+          {/* <ReactPaginate
+            breakLabel='...'
+            nextLabel='next >'
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel='< previous'
+            renderOnZeroPageCount={null}
+          /> */}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
